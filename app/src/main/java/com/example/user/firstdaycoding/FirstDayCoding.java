@@ -4,31 +4,58 @@ import java.util.*;
 public class FirstDayCoding {
     public static void main(String[] args) {
 
-        List<String> input = Arrays.asList("cat", "cat", "pig", "cat");
-
+        //Problem 1
+        System.out.println("Problem 1:");
+        List<String> input = Arrays.asList("cat", "dog", "pig", "cat", "dog", "dog");
         findDuplicates(input);
-        System.out.println(checkPalindrome("racecar"));
-        fizzBuzz(20);
-        System.out.println(checkAnagram("COAT", "TACO"));
+        System.out.println();
 
+        //Problem 2
+        System.out.println("Problem 2:");
+        System.out.println(checkPalindrome("racecar"));
+        System.out.println();
+
+        //Problem 3
+        System.out.println("Problem 3:");
+        fizzBuzz(20);
+        System.out.println();
+
+        //Problem 4
+        System.out.println("Problem 4:");
+        System.out.println(checkAnagram("COAT", "TACO"));
+        System.out.println();
+
+        //Problem 5
+        System.out.println("Problem 5:");
+        printTables();
     }
 
-    public static void findDuplicates(List<String> strings)
+    private static void findDuplicates(List<String> strings)
     {
-        List<String> temp = new ArrayList<String>();
+        Map<String, Boolean> mapping = new HashMap<>();
+
+        //Populate Hashmap, setting value to true if duplicate, false if not
         for(int i=0; i<strings.size(); i++){
-            if (temp.contains(strings.get(i)))
+            if (mapping.containsKey(strings.get(i)))
+                mapping.put(strings.get(i), true);
+            else
+                mapping.put(strings.get(i), false);
+        }
+
+        //Print out Hashmap entries if their value is true, meaning they are duplicate
+        for (Map.Entry<String, Boolean> entry : mapping.entrySet()) {
+            if (entry.getValue() == true)
             {
-                System.out.println(strings.get(i));
+                System.out.println(entry.getKey());
             }
-            temp.add(strings.get(i));
         }
     }
 
-    public static boolean checkPalindrome(String word)
+    private static boolean checkPalindrome(String word)
     {
         for (int i=0; i < word.length(); i++)
         {
+            //compares first char to last char, 2nd char to 2nd last char, etc.
             int j = word.length() - i - 1;
             if (word.charAt(i) != word.charAt(j))
             {
@@ -38,55 +65,72 @@ public class FirstDayCoding {
         return true;
     }
 
-    public static void fizzBuzz(int count)
+    private static void fizzBuzz(int count)
     {
         for (int i=1; i<=count; i++)
         {
             if (i%3 == 0)
             {
                 if (i%5 == 0)
-                {
                     System.out.println("fizzbuzz");
-                }
                 else
-                {
                     System.out.println("fizz");
-                }
             }
             else if(i%5 == 0)
-            {
                 System.out.println("buzz");
-            }
             else
-            {
                 System.out.println(i);
-            }
-
         }
     }
 
-    public static boolean checkAnagram(String word1, String word2)
+    private static boolean checkAnagram(String word1, String word2)
     {
-        char[] chars1 = word1.toCharArray();
-        char[] chars2 = word2.toCharArray();
-        Arrays.sort(chars1);
-        Arrays.sort(chars2);
-        String sorted1 = new String(chars1);
-        String sorted2 = new String(chars2);
+        Map<Character, Integer> mapping1 = new HashMap<>();
+        Map<Character, Integer> mapping2 = new HashMap<>();
 
-
-        if (sorted1.equals(sorted2))
+        for(int i=0; i<word1.length(); i++)
         {
+            if(mapping1.containsKey(word1.charAt(i)))
+                mapping1.put(word1.charAt(i), mapping1.get(word1.charAt(i)) + 1);
+            else
+                mapping1.put(word1.charAt(i), 1);
+        }
+
+        for(int i=0; i<word2.length(); i++)
+        {
+            if(mapping2.containsKey(word2.charAt(i)))
+                mapping2.put(word2.charAt(i), mapping2.get(word2.charAt(i)) + 1);
+            else
+                mapping2.put(word2.charAt(i), 1);
+        }
+
+        if(mapping1.equals(mapping2))
             return true;
-        }
         else
-        {
             return false;
-        }
     }
 
-    public void printTables(){
+    private static void printTables(){
+        int[][] table = new int[10][10];
 
+        //populating 2D array table
+        for(int i=0; i<10; i++)
+        {
+            for(int j=0; j<10; j++)
+            {
+                table[i][j] = (i+1) * (j+1);
+            }
+        }
+
+        //printing out the 2D table
+        for(int i=0; i<10; i++)
+        {
+            for(int j=0; j<10; j++)
+            {
+                System.out.print(table[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 
 }
